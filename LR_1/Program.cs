@@ -9,34 +9,15 @@ public class Program
 {
     static void Main() 
     {
-        int[] benchmarksMajor = [10, 100, 1000, 5000, 10000, 20000, 50000];
-        int[] benchmarksMinor = [.. Range(100, 20000, 100)];
+        //DumpResults();
 
-
-        //PlotGenericBenchmarks("10_Generic.png", 10);
-        PlotGenericBenchmarks("100_Generic.png", 100);
+        //PlotGenericBenchmarks("10_Generic.png", 10, testCount: 20);
+        //PlotGenericBenchmarks("100_Generic.png", 100);
         //PlotGenericBenchmarks("1000_Generic.png", 1000, stepSize: 10);
 
         //PlotAlghorithmBenchmarks("1000_NaiveBubble.png", 10000, NaiveBubbleSort, stepSize:  100);
         //PlotAlghorithmBenchmarks("1000_ModifiedBubble.png", 1000, ModifiedBubbleSort, stepSize: 10);
         //PlotAlghorithmBenchmarks("20000_SedgewickShell.png", 20000, SedgewickShellSort, stepSize: 200);
-
-
-        /*
-        var SedgewicksMajorAscendingResults = RunBenchmarks(benchmarksMajor, SedgewickShellSort, TestOrder.Ascending);
-        var SedgewickMajorDescendingResults = RunBenchmarks(benchmarksMajor, SedgewickShellSort, TestOrder.Descending);
-        var SedgewickMajorRandomResults = RunBenchmarks(benchmarksMajor, SedgewickShellSort, TestOrder.Random, 10);
-        var NaiveBubblesortMajorAscendingResults = RunBenchmarks(benchmarksMajor, NaiveBubbleSort, TestOrder.Ascending);
-        var NaiveBubblesortMajorDescendingResults = RunBenchmarks(benchmarksMajor, NaiveBubbleSort, TestOrder.Descending);
-        var NaiveBubblesortMajorRandomResults = RunBenchmarks(benchmarksMajor, NaiveBubbleSort, TestOrder.Random, 10);
-        var ModifiedBubblesortMajorAscendingResults = RunBenchmarks(benchmarksMajor, ModifiedBubbleSort, TestOrder.Ascending);
-        var ModifiedBubblesortMajorDescendingResults = RunBenchmarks(benchmarksMajor, ModifiedBubbleSort, TestOrder.Descending);
-        var ModifiedBubblesortMajorRandomResults = RunBenchmarks(benchmarksMajor, ModifiedBubbleSort, TestOrder.Random, 10);
-
-        var SedgewicksMinorResults = new (int Swaps, int Comparisons)[benchmarksMajor.Length];
-        var NaiveBubblesortMinorResults = new (int Swaps, int Comparisons)[benchmarksMajor.Length];
-        var ModifiedBubblesortMinorResults = new (int Swaps, int Comparisons)[benchmarksMajor.Length];
-        */
     }
 
     /// <summary>
@@ -220,7 +201,7 @@ public class Program
         ssp.ConnectStyle = ConnectStyle.Straight;
         ssp.LegendText = "Sedgewick Shellsort";
 
-        myPlot.SavePng(filename, 800, 600);
+        myPlot.SavePng(filename, 400, 300);
     }
 
     public static void PlotAlghorithmBenchmarks(string filename, int maxSize, SortingMethod sortingMethod, int stepSize = 1, int testCount = 5, TestType testType = TestType.Comparisons)
@@ -279,6 +260,36 @@ public class Program
         bcp.LegendText = "Best (Asymptotic)";
 
         myPlot.SavePng(filename, 800, 600);
+    }
+
+    public static void DumpResults()
+    {
+        SortingMethod[] sortingMethods = {NaiveBubbleSort, ModifiedBubbleSort, SedgewickShellSort};
+        int[] sizes = [10, 100, 1000, 5000, 10000, 20000, 50000];
+
+        Console.WriteLine("Ascending");
+        foreach (var sortingMethod in sortingMethods)
+        {
+            Console.WriteLine(sortingMethod.Method.Name);
+            Console.WriteLine(string.Join(", ", RunBenchmarks(sizes, sortingMethod, TestOrder.Ascending, testType: TestType.Comparisons)));
+            Console.WriteLine(string.Join(", ", RunBenchmarks(sizes, sortingMethod, TestOrder.Ascending, testType: TestType.Swaps)));
+        }
+
+        Console.WriteLine("Descending");
+        foreach (var sortingMethod in sortingMethods)
+        {
+            Console.WriteLine(sortingMethod.Method.Name);
+            Console.WriteLine(string.Join(", ", RunBenchmarks(sizes, sortingMethod, TestOrder.Descending, testType: TestType.Comparisons)));
+            Console.WriteLine(string.Join(", ", RunBenchmarks(sizes, sortingMethod, TestOrder.Descending, testType: TestType.Swaps)));
+        }
+
+        Console.WriteLine("Random");
+        foreach (var sortingMethod in sortingMethods)
+        {
+            Console.WriteLine(sortingMethod.Method.Name);
+            Console.WriteLine(string.Join(", ", RunBenchmarks(sizes, sortingMethod, TestOrder.Random, testCount: 5, testType: TestType.Comparisons)));
+            Console.WriteLine(string.Join(", ", RunBenchmarks(sizes, sortingMethod, TestOrder.Random, testCount: 5,  testType: TestType.Swaps)));
+        }
     }
 
     public static int GetSedgewickElement(int n)
