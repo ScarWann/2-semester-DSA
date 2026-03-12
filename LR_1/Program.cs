@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
@@ -13,11 +14,11 @@ public class Program
 
 
         //PlotGenericBenchmarks("10_Generic.png", 10);
-        //PlotGenericBenchmarks("100_Generic.png", 100);
+        PlotGenericBenchmarks("100_Generic.png", 100);
         //PlotGenericBenchmarks("1000_Generic.png", 1000, stepSize: 10);
 
         //PlotAlghorithmBenchmarks("1000_NaiveBubble.png", 10000, NaiveBubbleSort, stepSize:  100);
-        PlotAlghorithmBenchmarks("1000_ModifiedBubble.png", 1000, ModifiedBubbleSort, stepSize: 10);
+        //PlotAlghorithmBenchmarks("1000_ModifiedBubble.png", 1000, ModifiedBubbleSort, stepSize: 10);
         //PlotAlghorithmBenchmarks("20000_SedgewickShell.png", 20000, SedgewickShellSort, stepSize: 200);
 
 
