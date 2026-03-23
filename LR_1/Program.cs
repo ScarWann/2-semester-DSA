@@ -9,9 +9,9 @@ public class Program
 {
     static void Main() 
     {
-        //DumpResults();
+        DumpResults();
 
-        //PlotGenericBenchmarks("10_Generic.png", 10, testCount: 20);
+        //PlotGenericBenchmarks("10_Generic.png", 10, testCount: 50);
         //PlotGenericBenchmarks("100_Generic.png", 100);
         //PlotGenericBenchmarks("1000_Generic.png", 1000, stepSize: 10);
 
@@ -264,7 +264,7 @@ public class Program
 
     public static void DumpResults()
     {
-        SortingMethod[] sortingMethods = {NaiveBubbleSort, ModifiedBubbleSort, SedgewickShellSort};
+        SortingMethod[] sortingMethods = {SedgewickShellSort};
         int[] sizes = [10, 100, 1000, 5000, 10000, 20000, 50000];
 
         Console.WriteLine("Ascending");
