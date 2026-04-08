@@ -3,7 +3,8 @@ namespace DSA_2;
 public class TestCase
 {
     private int[] array;
-    private int inversions = -1;
+    private int inversions;
+    private bool inversionsCalculated;
 
     public TestCase(int[] array)
     {
@@ -39,13 +40,7 @@ public class TestCase
         get;
     }
 
-    public int Inversions
-    {
-        get
-        {
-            return this.inversions != -1 ? this.inversions : this.GetInversions();
-        }
-    }
+    public int Inversions => this.inversionsCalculated ? this.inversions : this.GetInversions();
 
     private IReadOnlyCollection<int> Data => this.array;
 
@@ -81,42 +76,41 @@ public class TestCase
 
     private int GetInversions()
     {
-        if (this.Length == 1)
+        this.inversionsCalculated = true;
+        if (this.Length == 1) return 0;
+        this.SortAndCountInversions(this.ToArray());
+        return this.inversions;
+    }
+
+    private int[] MergeAndCountSplitInversions(int[] leftArray, int[] rightArray)
+    {
+        int[] result = new int[leftArray.Length + rightArray.Length];
+        int i = 0, j = 0;
+        for (int k = 0; k < result.Length; k++)
         {
-            return 0;
+            if (j == rightArray.Length) result[k] = leftArray[i++];
+            else if (i == leftArray.Length) result[k] = rightArray[j++];
+            else if (leftArray[i] <= rightArray[j]) result[k] = leftArray[i++];
+            else
+            {
+                result[k] = rightArray[j++];
+                this.inversions += leftArray.Length - i;
+            }
         }
-        else
-        {
-            this.SortAndCountInversions(this.ToArray());
-            return this.inversions;
-        }
+
+        return result;
     }
 
     private int[] SortAndCountInversions(int[] array)
     {
-        var leftArray = this.SortAndCountInversions(array[1..(array.Length / 2)]);
-        var rigthArray = this.SortAndCountInversions(array[(array.Length / 2)..]);
-        return this.MergeAndCountSplitInversions(array, leftArray, rigthArray);
-    }
+        if (array.Length == 1) return array;
+        var left = this.SortAndCountInversions(array[..(array.Length / 2)]);
+        var right = this.SortAndCountInversions(array[(array.Length / 2)..]);
 
-    private int[] MergeAndCountSplitInversions(int[] array, int[] leftArray, int[] rightArray)
-    {
-        int i = 0, j = 0;
-        for (int k = 0; k < array.Length; k++)
-        {
-            if (leftArray[i] <= rightArray[j] || j == rightArray.Length)
-            {
-                array[k] = leftArray[i];
-                i++;
-            }
-            else
-            {
-                array[k] = rightArray[j];
-                j++;
-                this.inversions += rightArray.Length - i;
-            }
-        }
+        Console.WriteLine($"Merging L:[{string.Join(",", left)}] R:[{string.Join(",", right)}] | inversions before: {this.inversions}");
+        var result = this.MergeAndCountSplitInversions(left, right);
+        Console.WriteLine($"Result: [{string.Join(",", result)}] | inversions after: {this.inversions}");
 
-        return array;
+        return this.MergeAndCountSplitInversions(left, right);
     }
 }
