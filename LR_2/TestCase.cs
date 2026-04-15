@@ -22,17 +22,6 @@ public class TestCase
         this.Id = id;
     }
 
-    public TestCase(int[] array, IDictionary<int, int> indexMask, int id)
-    {
-        ArgumentNullException.ThrowIfNull(array);
-        ArgumentNullException.ThrowIfNull(indexMask);
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(id);
-
-        this.array = array;
-        this.ApplyMask(indexMask);
-        this.Id = id;
-    }
-
     public int Length => this.array.Length;
 
     public int Id
@@ -64,9 +53,9 @@ public class TestCase
         return this.Data.ToArray();
     }
 
-    public void ApplyMask(IDictionary<int, int> indexMask)
+    public void ApplyMask(int[] xMovieAtRank)
     {
-        this.array = this.array.Select(val => indexMask[val]).ToArray();
+        this.array = xMovieAtRank.Select(filmIdx => this.array[filmIdx]).ToArray();
     }
 
     public override string ToString()
@@ -111,6 +100,6 @@ public class TestCase
         var result = this.MergeAndCountSplitInversions(left, right);
         Console.WriteLine($"Result: [{string.Join(",", result)}] | inversions after: {this.inversions}");
 
-        return this.MergeAndCountSplitInversions(left, right);
+        return result;
     }
 }

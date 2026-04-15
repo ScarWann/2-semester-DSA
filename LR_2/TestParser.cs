@@ -99,25 +99,24 @@ public class TestParser
     private void ApplyMask(TestCase testCase)
     {
         this.appliedMaskId = testCase.Id;
-        this.ApplyMask(indexMask: testCase.ToArray().Select((val, idx) => (val, idx)).ToDictionary(pair => pair.val, pair => pair.idx));
+        int[] xMovieAtRank = new int[testCase.Length];
+        for (int mIdx = 0; mIdx < testCase.Length; mIdx++)
+            xMovieAtRank[testCase[mIdx] - 1] = mIdx;
+        this.ApplyMask(xMovieAtRank);
     }
 
-    private void ApplyMask(IDictionary<int, int> indexMask)
+    private void ApplyMask(int[] xMovieAtRank)
     {
         if (this.appliedMask)
-        {
             throw new ArgumentException("Mask was already applied.");
-        }
-        else
-        {
-            foreach (var testCase in this.Data) testCase.ApplyMask(indexMask);
-            this.appliedMask = true;
-        }
+        foreach (var testCase in this.Data)
+            testCase.ApplyMask(xMovieAtRank);
+        this.appliedMask = true;
     }
 
     private new string ToString()
     {
-        return this.MaskId + $"\n{string.Join("\n", this.IndexedIversions.Select(e => $"{e.Id} {e.Inversions}"))}\n";
+        return this.MaskId + $"\n{string.Join("\n", this.IndexedIversions.Select(e => $"{e.Id} {e.Inversions}"))}";
     }
 
     private static void ThrowExceptionOnInvalidInputFormatting(string[] lines)
