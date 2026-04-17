@@ -283,6 +283,7 @@ dotnet_diagnostic.SA1400.severity = error     # AccessModifierMustBeDeclared
 dotnet_diagnostic.SA1401.severity = none      # FieldsMustBePrivate
 # Layout rules
 dotnet_diagnostic.SA1503.severity = none      # BracesMustNotBeOmitted
+dotnet_diagnostic.SA1520.severity = none      # Use braces consictently
 # Documentation rules
 dotnet_diagnostic.SA1600.severity = none      # ElementsMustBeDocumented
 dotnet_diagnostic.SA1601.severity = none      # PartialElementsMustBeDocumented
