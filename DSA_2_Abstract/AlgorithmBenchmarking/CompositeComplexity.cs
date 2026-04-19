@@ -1,4 +1,4 @@
-namespace DSA_2_Abstract;
+namespace DSA_2_Abstract.AlgorithmBenchmarking;
 
 public struct CompositeComplexity(Func<int, int> omega, Func<int, int> omicron, Func<int, int> theta)
 {
