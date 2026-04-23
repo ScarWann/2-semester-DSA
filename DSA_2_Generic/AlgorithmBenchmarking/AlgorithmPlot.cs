@@ -2,10 +2,9 @@ using ScottPlot;
 
 namespace DSA_2_Generic.AlgorithmBenchmarking;
 
-public class AlgorithmPlot<TContainer, TContainerRangeGenerationData, TContainerGenerationData, TTypes, TBenchmarks>(Plot? plot)
+public class AlgorithmPlot<TContainer, TGenerator, TTypes, TBenchmarks>(Plot? plot)
 where TContainer : class
-where TContainerRangeGenerationData : GenericContainerRangeGenerationData<TContainer, TContainerGenerationData, TTypes>
-where TContainerGenerationData : GenericContainerGenerationData<TContainer, TTypes>
+where TGenerator : Generator<TContainer, TTypes>
 where TTypes : Enum
 where TBenchmarks : struct
 {
@@ -13,7 +12,7 @@ where TBenchmarks : struct
 
     public void AddComplexities(
         CompositeComplexity complexity,
-        TContainerRangeGenerationData generationData,
+        TGenerator generationData,
         string name = "")
     {
         int[] generationRange = generationData.GetRange().ToArray();
@@ -39,7 +38,7 @@ where TBenchmarks : struct
     public void AddAlgorithm(
         Algorithm<TContainer, TBenchmarks> algorithm,
         Func<TBenchmarks, int> selector,
-        TContainerRangeGenerationData generationData,
+        TGenerator generationData,
         int testCount = 1,
         bool addComplexities = false)
     {
@@ -59,7 +58,7 @@ where TBenchmarks : struct
             {
                 var graph = this.Plot.Add.Scatter(
                 generationRange,
-                generationRange.Select(i => generationData.CreateGenerationData(val, i).Generate(testCount))
+                generationRange.Select(i => generationData.Generate(val, i, testCount))
                                .ToArray()
                                .Select(e => e
                                .Average(e => selector(algorithm.GetBenchmarks(e))))
@@ -78,7 +77,7 @@ where TBenchmarks : struct
     public void AddAlgorithms(
         Algorithm<TContainer, TBenchmarks>[] algorithms,
         Func<TBenchmarks, int> selector,
-        TContainerRangeGenerationData generationData,
+        TGenerator generationData,
         int testCount = 1,
         bool addComplexities = false)
     {
