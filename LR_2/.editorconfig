@@ -293,3 +293,5 @@ dotnet_diagnostic.SA1615.severity = none      # ElementReturnValueMustBeDocument
 dotnet_diagnostic.SA1618.severity = none      # GenericTypeParametersMustBeDocumented
 dotnet_diagnostic.SA1625.severity = none      # ElementDocumentationMustNotBeCopiedAndPasted
 dotnet_diagnostic.SA1633.severity = none      # FileMustHaveHeader
+
+dotnet_diagnostic.IDE0005.severity = none

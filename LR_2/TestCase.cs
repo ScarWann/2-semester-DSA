@@ -95,11 +95,7 @@ public class TestCase
         if (array.Length == 1) return array;
         var left = this.SortAndCountInversions(array[..(array.Length / 2)]);
         var right = this.SortAndCountInversions(array[(array.Length / 2)..]);
-
-        Console.WriteLine($"Merging L:[{string.Join(",", left)}] R:[{string.Join(",", right)}] | inversions before: {this.inversions}");
         var result = this.MergeAndCountSplitInversions(left, right);
-        Console.WriteLine($"Result: [{string.Join(",", result)}] | inversions after: {this.inversions}");
-
         return result;
     }
 }

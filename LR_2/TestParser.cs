@@ -77,16 +77,16 @@ public class TestParser
         if (this.MaskId != 0) this.ApplyMask();
         this.CalculateInversionsWithoutMask();
 
-        foreach (var t in this.Data)
-            Console.WriteLine($"TestCase {t.Id} array after mask: [{string.Join(",", t.ToArray())}] inversions: {t.Inversions}");
-
         return this.indexedInversions;
     }
 
     private (int Id, int Inversions)[] CalculateInversionsWithoutMask()
     {
         this.calculatedInversions = true;
-        return this.indexedInversions = this.Data.Where(e => e.Id != this.appliedMaskId).OrderBy(e => e.Inversions).Select(e => (e.Id, e.Inversions)).ToArray();
+        return this.indexedInversions = this.Data.Where(e => e.Id != this.appliedMaskId)
+                                                 .OrderBy(e => e.Inversions)
+                                                 .Select(e => (e.Id, e.Inversions))
+                                                 .ToArray();
     }
 
     private void ApplyMask()
@@ -100,17 +100,14 @@ public class TestParser
     {
         this.appliedMaskId = testCase.Id;
         int[] xMovieAtRank = new int[testCase.Length];
-        for (int mIdx = 0; mIdx < testCase.Length; mIdx++)
-            xMovieAtRank[testCase[mIdx] - 1] = mIdx;
+        for (int mIdx = 0; mIdx < testCase.Length; mIdx++) xMovieAtRank[testCase[mIdx] - 1] = mIdx;
         this.ApplyMask(xMovieAtRank);
     }
 
     private void ApplyMask(int[] xMovieAtRank)
     {
-        if (this.appliedMask)
-            throw new ArgumentException("Mask was already applied.");
-        foreach (var testCase in this.Data)
-            testCase.ApplyMask(xMovieAtRank);
+        if (this.appliedMask) throw new ArgumentException("Mask was already applied.");
+        foreach (var testCase in this.Data) testCase.ApplyMask(xMovieAtRank);
         this.appliedMask = true;
     }
 
