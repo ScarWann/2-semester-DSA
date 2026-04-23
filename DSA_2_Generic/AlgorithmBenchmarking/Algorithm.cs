@@ -1,11 +1,13 @@
 namespace DSA_2_Generic.AlgorithmBenchmarking;
 
-public class Algorithm<TContainer, TBenchmarks>(Func<TContainer, (TContainer Container, TBenchmarks Benchmarks)> algorithm, CompositeComplexity complexity)
+public class Algorithm<TContainer, TBenchmarks>(Func<TContainer, (TContainer Container, TBenchmarks Benchmarks)> algorithm, CompositeComplexity complexity, string name = "")
 where TBenchmarks : struct
 {
-    private readonly CompositeComplexity complexity = complexity;
+    private readonly string name = name;
 
     public Func<TContainer, (TContainer Container, TBenchmarks Benchmarks)> AlgorithmFunc { get; } = algorithm;
+
+    public CompositeComplexity Complexity { get; } = complexity;
 
     public TContainer GetContainerResults(TContainer inputStructure) => this.AlgorithmFunc(inputStructure).Container;
 
@@ -13,11 +15,16 @@ where TBenchmarks : struct
 
     public (TContainer Container, TBenchmarks Benchmarks) GetCompositeResults(TContainer inputStructure) => this.AlgorithmFunc(inputStructure);
 
-    public int Omega(int n) => this.complexity.Omega(n);
+    public int Omega(int n) => this.Complexity.Omega(n);
 
-    public int Omicron(int n) => this.complexity.Omicron(n);
+    public int Omicron(int n) => this.Complexity.Omicron(n);
 
-    public int Theta(int n) => this.complexity.Theta(n);
+    public int Theta(int n) => this.Complexity.Theta(n);
+
+    public override string ToString()
+    {
+        return this.name;
+    }
 }
 
 public static class Algorithm
@@ -35,4 +42,19 @@ public static class Algorithm
         Func<int, int> theta)
     where TBenchmarks : struct
     => Create(algorithm, new CompositeComplexity(omega, omicron, theta));
+
+    public static Algorithm<TContainer, TBenchmarks>
+    Create<TContainer, TBenchmarks>(Func<TContainer, (TContainer Container, TBenchmarks Benchmarks)> algorithm, CompositeComplexity complexity, string name)
+    where TBenchmarks : struct
+    => new Algorithm<TContainer, TBenchmarks>(algorithm, complexity, name);
+
+    public static Algorithm<TContainer, TBenchmarks>
+    Create<TContainer, TBenchmarks>(
+        Func<TContainer, (TContainer Container, TBenchmarks Benchmarks)> algorithm,
+        Func<int, int> omega,
+        Func<int, int> omicron,
+        Func<int, int> theta,
+        string name)
+    where TBenchmarks : struct
+    => Create(algorithm, new CompositeComplexity(omega, omicron, theta), name);
 }
