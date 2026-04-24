@@ -1,4 +1,4 @@
-namespace DSA_2_Generic.SortingBenchmarking;
+namespace LR_3.SortingBenchmarking;
 
 public struct SortingBenchmarks
 {

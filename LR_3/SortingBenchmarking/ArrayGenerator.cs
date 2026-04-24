@@ -1,8 +1,8 @@
-using DSA_2_Generic.AlgorithmBenchmarking;
+using LR_3.DSL;
 
-namespace DSA_2_Generic.SortingBenchmarking;
+namespace LR_3.SortingBenchmarking;
 
-public class ArrayGenerator(ArrayType type, int from, int to, int step = 1) : Generator<int[], ArrayType>(type, from, to, step)
+public class ArrayGenerator(ArrayType type, int from, int to, int step = 1) : AbstractGenerator<int[], ArrayType>(type, from, to, step)
 {
     public override int[] Generate(ArrayType type, int size)
     => type switch

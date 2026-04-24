@@ -1,6 +1,6 @@
-using ArrayResults = (int[] Container, DSA_2_Generic.SortingBenchmarking.SortingBenchmarks Benchmarks);
+using ArrayResults = (int[] DataStructure, LR_3.SortingBenchmarking.SortingBenchmarks Benchmarks);
 
-namespace DSA_2_Generic.SortingBenchmarking.SortingAlgorithms;
+namespace LR_3.SortingBenchmarking.SortingAlgorithms;
 
 public static class Algorithms
 {
