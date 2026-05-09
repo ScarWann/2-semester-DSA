@@ -11,7 +11,6 @@ public static class Algorithms
         var benchmarks = new SpanningBenchmarks();
         int[,] mst = new int[n, n];
 
-        // Each vertex starts as its own component
         int[] component = new int[n];
         for (int i = 0; i < n; i++) component[i] = i;
 
@@ -19,7 +18,6 @@ public static class Algorithms
 
         while (componentCount > 1)
         {
-            // cheapestEdge[c] = (u, v, weight) — cheapest edge leaving component c
             var cheapest = new (int V, int Weight)[n];
             for (int i = 0; i < n; i++) cheapest[i] = (-1, int.MaxValue);
 
@@ -37,7 +35,7 @@ public static class Algorithms
 
                     benchmarks.Comparisons++;
                     if (graph[u, v] < cheapest[cv].Weight)
-                        cheapest[cv] = (u, graph[u, v]); // note: from cv's perspective, u is the neighbor
+                        cheapest[cv] = (u, graph[u, v]);
                 }
             }
 
