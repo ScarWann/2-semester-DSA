@@ -8,10 +8,10 @@ public class Program
         string input = Console.ReadLine() ?? string.Empty;
 
         var counts = input.GroupBy(c => c)
-                          .Select(g => new { Char = g.Key, Count = g.Count() })
+                          .Select(g => (Char: g.Key, Count: g.Count()))
                           .ToList();
 
-        if (!counts.Any()) return;
+        if (counts.Count == 0) return;
 
         int maxCount = counts.Max(x => x.Count);
 
