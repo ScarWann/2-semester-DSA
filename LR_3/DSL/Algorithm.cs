@@ -1,4 +1,4 @@
-namespace LR_3.DSL;
+namespace DSL;
 
 public class Algorithm<TDataStructure, TBenchmarks>(
     Func<TDataStructure, (TDataStructure DataStructure, TBenchmarks Benchmarks)> algorithm,
@@ -28,41 +28,4 @@ where TBenchmarks : struct
     {
         return this.name;
     }
-}
-
-public static class Algorithm
-{
-    public static Algorithm<TDataStructure, TBenchmarks>
-    Create<TDataStructure, TBenchmarks>(
-        Func<TDataStructure, (TDataStructure DataStructure, TBenchmarks Benchmarks)> algorithm,
-        CompositeComplexity? complexity = default)
-    where TBenchmarks : struct
-    => new Algorithm<TDataStructure, TBenchmarks>(algorithm, complexity);
-
-    public static Algorithm<TDataStructure, TBenchmarks>
-    Create<TDataStructure, TBenchmarks>(
-        Func<TDataStructure, (TDataStructure DataStructure, TBenchmarks Benchmarks)> algorithm,
-        Func<int, int> omega,
-        Func<int, int> omicron,
-        Func<int, int> theta)
-    where TBenchmarks : struct
-    => Create(algorithm, new CompositeComplexity(omega, omicron, theta));
-
-    public static Algorithm<TDataStructure, TBenchmarks>
-    Create<TDataStructure, TBenchmarks>(
-        Func<TDataStructure, (TDataStructure DataStructure, TBenchmarks Benchmarks)> algorithm,
-        string name,
-        CompositeComplexity? complexity = default)
-    where TBenchmarks : struct
-    => new Algorithm<TDataStructure, TBenchmarks>(algorithm, complexity, name);
-
-    public static Algorithm<TDataStructure, TBenchmarks>
-    Create<TDataStructure, TBenchmarks>(
-        Func<TDataStructure, (TDataStructure DataStructure, TBenchmarks Benchmarks)> algorithm,
-        Func<int, int> omega,
-        Func<int, int> omicron,
-        Func<int, int> theta,
-        string name)
-    where TBenchmarks : struct
-    => Create(algorithm, name, new CompositeComplexity(omega, omicron, theta));
 }

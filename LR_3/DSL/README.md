@@ -1,5 +1,19 @@
 <h1>DSL (Data Structure Library)</h1>
 
+<h2>How to add it to your project</h2>
+
+Add the following ItemGroup to your csproj:
+```
+<ItemGroup>
+  <ProjectReference Include="..\DSL\DSL.csproj" />
+</ItemGroup>
+```
+
+And run the following command to add it to your sln:
+```
+dotnet sln add DSL/DSL.csproj
+```
+
 <h2>Classes and methods which need to be implemented on the second layer for proper graphing</h2>
 
 <h3>Types (Enum)</h3>
@@ -35,10 +49,11 @@ Can be any class which Algorithm accepts, but DSL is intended for benchmarking c
 
 <h3>AlgorithmPlot</h3>
 
-Inherits from `ScottPlot.Plot`
-Has several methods for plotting benchmarks.
+Inherits from `ScottPlot.Plot`.<br>
+Has several methods for plotting benchmarks.<br>
 Should be initialized by specifying the boilerplate types created on the second layer.
 
-Example for plotting sorting algorithms: `AlgorithmPlot<int[], ArrayBenchmarks, ArrayTypes, SortingBenchmarks>`. The returned class will be able to perform graphing methods with algorithms.
+Example for plotting sorting algorithms: `AlgorithmPlot<int[], ArrayBenchmarks, ArrayTypes, SortingBenchmarks>`. The returned class will be able to perform graphing methods with sorting algorithms.
 
-`using` usage recommended for shorter type syntax. Example: `using SortingPlot = AlgorithmPlot<int[], ArrayBenchmarks, ArrayTypes, SortingBenchmarks>;`.
+`using` usage recommended for shorter type syntax. Example: `using SortingPlot = AlgorithmPlot<int[], ArrayBenchmarks, ArrayTypes, SortingBenchmarks>;`.<br>
+Another valid approach is to create a class that inherits from AlgorithmPlot while specifying its type parameters. This requires slightly more boilerplate but third-level programs will have clean access to an extended Plot instead of also including a large alias.

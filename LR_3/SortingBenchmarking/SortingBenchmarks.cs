@@ -6,7 +6,5 @@ public struct SortingBenchmarks
     {
     }
 
-    public int Swaps { get; set; }
-
     public int Comparisons { get; set; }
 }

@@ -1,4 +1,4 @@
-namespace LR_3.DSL;
+namespace DSL;
 
 public struct CompositeComplexity(Func<int, int> omega, Func<int, int> omicron, Func<int, int> theta)
 {

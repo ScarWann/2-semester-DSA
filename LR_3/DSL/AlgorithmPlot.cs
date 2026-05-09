@@ -1,6 +1,6 @@
 using ScottPlot;
 
-namespace LR_3.DSL;
+namespace DSL;
 
 public class AlgorithmPlot<TDataStructure, TGenerator, TTypes, TBenchmarks> : Plot
 where TDataStructure : class
@@ -50,22 +50,23 @@ where TBenchmarks : struct
         bool addComplexities = false)
     {
         int[] generationRange = generationData.GetRange().ToArray();
-        if (generationData.Type != null)
+        if (!EqualityComparer<TTypes>.Default.Equals(generationData.Type, default))
         {
-            this.Add.Scatter(
+            var graph = this.Add.Scatter(
             generationRange,
             generationData.GenerateDataStructureRange(testCount)
                           .Select(e => e
                           .Average(e => selector(algorithm.GetBenchmarks(e))))
                           .ToArray());
+            graph.LegendText = algorithm.ToString();
         }
         else
         {
-            foreach (var val in Enum.GetValues(typeof(TTypes)).Cast<TTypes>())
+            foreach (var val in Enum.GetValues(typeof(TTypes)).Cast<TTypes>().Skip(1))
             {
                 var graph = this.Add.Scatter(
                 generationRange,
-                generationRange.Select(i => generationData.Generate(val, i, testCount))
+                generationRange.Select(i => generationData.Generate(i, testCount, val))
                                .ToArray()
                                .Select(e => e
                                .Average(e => selector(algorithm.GetBenchmarks(e))))
@@ -92,5 +93,17 @@ where TBenchmarks : struct
         {
             this.AddAlgorithm(algorithm, selector, generationData, testCount, addComplexities);
         }
+    }
+
+    public void AddLambda(
+        Func<int, int> lambda,
+        TGenerator generationData,
+        string name = "")
+    {
+        int[] generationRange = generationData.GetRange().ToArray();
+        var graph = this.Add.Scatter(
+            generationRange,
+            generationRange.Select(i => lambda(i)).ToArray());
+        graph.LegendText = name;
     }
 }
